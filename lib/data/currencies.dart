@@ -1,0 +1,60 @@
+import '../models/currency.dart';
+
+/// Curated catalog of supported currencies. Every code here is present in the
+/// `country_flags` currency→flag map, so `CountryFlag.fromCurrencyCode(code)`
+/// always resolves. TND leads Anas's list (Tunisia).
+const List<Currency> kCurrencies = [
+  Currency(code: 'TND', name: 'Tunisian Dinar', symbol: 'د.ت', decimals: 3),
+  Currency(code: 'USD', name: 'US Dollar', symbol: r'$'),
+  Currency(code: 'EUR', name: 'Euro', symbol: '€'),
+  Currency(code: 'GBP', name: 'British Pound', symbol: '£'),
+  Currency(code: 'JPY', name: 'Japanese Yen', symbol: '¥', decimals: 0),
+  Currency(code: 'CHF', name: 'Swiss Franc', symbol: 'Fr'),
+  Currency(code: 'CAD', name: 'Canadian Dollar', symbol: r'$'),
+  Currency(code: 'AUD', name: 'Australian Dollar', symbol: r'$'),
+  Currency(code: 'NZD', name: 'New Zealand Dollar', symbol: r'$'),
+  Currency(code: 'CNY', name: 'Chinese Yuan', symbol: '¥'),
+  Currency(code: 'HKD', name: 'Hong Kong Dollar', symbol: r'$'),
+  Currency(code: 'SGD', name: 'Singapore Dollar', symbol: r'$'),
+  Currency(code: 'INR', name: 'Indian Rupee', symbol: '₹'),
+  Currency(code: 'KRW', name: 'South Korean Won', symbol: '₩', decimals: 0),
+  Currency(code: 'TRY', name: 'Turkish Lira', symbol: '₺'),
+  Currency(code: 'RUB', name: 'Russian Ruble', symbol: '₽'),
+  Currency(code: 'BRL', name: 'Brazilian Real', symbol: r'R$'),
+  Currency(code: 'MXN', name: 'Mexican Peso', symbol: r'$'),
+  Currency(code: 'ZAR', name: 'South African Rand', symbol: 'R'),
+  Currency(code: 'SEK', name: 'Swedish Krona', symbol: 'kr'),
+  Currency(code: 'NOK', name: 'Norwegian Krone', symbol: 'kr'),
+  Currency(code: 'DKK', name: 'Danish Krone', symbol: 'kr'),
+  Currency(code: 'PLN', name: 'Polish Zloty', symbol: 'zł'),
+  Currency(code: 'CZK', name: 'Czech Koruna', symbol: 'Kč'),
+  Currency(code: 'HUF', name: 'Hungarian Forint', symbol: 'Ft', decimals: 0),
+  Currency(code: 'RON', name: 'Romanian Leu', symbol: 'lei'),
+  Currency(code: 'THB', name: 'Thai Baht', symbol: '฿'),
+  Currency(code: 'MYR', name: 'Malaysian Ringgit', symbol: 'RM'),
+  Currency(code: 'IDR', name: 'Indonesian Rupiah', symbol: 'Rp', decimals: 0),
+  Currency(code: 'PHP', name: 'Philippine Peso', symbol: '₱'),
+  Currency(code: 'VND', name: 'Vietnamese Dong', symbol: '₫', decimals: 0),
+  Currency(code: 'PKR', name: 'Pakistani Rupee', symbol: '₨'),
+  Currency(code: 'BDT', name: 'Bangladeshi Taka', symbol: '৳'),
+  Currency(code: 'ILS', name: 'Israeli Shekel', symbol: '₪'),
+  Currency(code: 'AED', name: 'UAE Dirham', symbol: 'د.إ'),
+  Currency(code: 'SAR', name: 'Saudi Riyal', symbol: '﷼'),
+  Currency(code: 'QAR', name: 'Qatari Riyal', symbol: '﷼'),
+  Currency(code: 'KWD', name: 'Kuwaiti Dinar', symbol: 'د.ك', decimals: 3),
+  Currency(code: 'BHD', name: 'Bahraini Dinar', symbol: '.د.ب', decimals: 3),
+  Currency(code: 'OMR', name: 'Omani Rial', symbol: '﷼', decimals: 3),
+  Currency(code: 'JOD', name: 'Jordanian Dinar', symbol: 'د.ا', decimals: 3),
+  Currency(code: 'EGP', name: 'Egyptian Pound', symbol: '£'),
+  Currency(code: 'DZD', name: 'Algerian Dinar', symbol: 'دج'),
+  Currency(code: 'MAD', name: 'Moroccan Dirham', symbol: 'د.م.'),
+  Currency(code: 'LYD', name: 'Libyan Dinar', symbol: 'ل.د', decimals: 3),
+  Currency(code: 'NGN', name: 'Nigerian Naira', symbol: '₦'),
+  Currency(code: 'KES', name: 'Kenyan Shilling', symbol: 'Sh'),
+  Currency(code: 'UAH', name: 'Ukrainian Hryvnia', symbol: '₴'),
+];
+
+/// Fast lookup by ISO code.
+final Map<String, Currency> kCurrencyByCode = {
+  for (final c in kCurrencies) c.code: c,
+};
