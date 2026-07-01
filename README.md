@@ -47,14 +47,14 @@
 <!-- ============ PREVIEW ============ -->
 <h2 align="center">🖼️ Preview</h2>
 
-<p align="center"><i>Converter · Currency picker · Favourites · History chart</i></p>
+<p align="center"><i>Converter · Reverse pair · Currency picker · Favourites · History chart</i></p>
 
 <p align="center">
-  <!-- Device screenshots live in /screenshots -->
-  <img src="screenshots/converter.png" width="24%" alt="Converter"/>
-  <img src="screenshots/picker.png" width="24%" alt="Currency picker"/>
-  <img src="screenshots/favorites.png" width="24%" alt="Favourites"/>
-  <img src="screenshots/chart.png" width="24%" alt="History chart"/>
+  <img src="screenshots/converter.png" width="19%" alt="Converter TND to USD"/>
+  <img src="screenshots/converter-usd.png" width="19%" alt="Converter USD to TND"/>
+  <img src="screenshots/picker.png" width="19%" alt="Currency picker"/>
+  <img src="screenshots/favorites.png" width="19%" alt="Favourites"/>
+  <img src="screenshots/chart.png" width="19%" alt="7-day history chart"/>
 </p>
 
 <!-- divider -->
@@ -102,24 +102,89 @@
 <!-- divider -->
 <img src="https://capsule-render.vercel.app/api?type=rect&color=0:E11B22,100:E0A82E&height=4" width="100%"/>
 
-<!-- ============ GETTING STARTED ============ -->
-<h2 align="center">🚀 Getting Started</h2>
+<!-- ============ BUILD ============ -->
+<h2 align="center">🛠️ Build from Source</h2>
 
-<p align="center"><b>Prerequisites</b> — Flutter <b>3.44+</b> · Android SDK (for APK) · Xcode (for iOS)</p>
+<p align="center"><b>Prerequisites</b> — <a href="https://docs.flutter.dev/get-started/install">Flutter</a> <b>3.44.4</b> (stable). Android SDK for the APK; macOS + Xcode <i>or</i> GitHub Actions for the IPA.</p>
 
 ```bash
+git clone https://github.com/AnasBenAhmed/Cambio.git
+cd Cambio
 flutter pub get
+flutter test     # 43 unit tests
+flutter run      # launch on a connected device / emulator
+```
 
-# Run on a connected device / emulator
-flutter run
+<h3>🤖 Android (APK)</h3>
 
-# Build a release APK (sideload on Android)
+```bash
+# Universal APK — works on any phone (~50 MB, bundles all CPU ABIs)
 flutter build apk --release
 #   → build/app/outputs/flutter-apk/app-release.apk
 
-# Build for iOS (install via signing cert + a sideloader)
-flutter build ipa
+# Or smaller per-architecture APKs (~16 MB each)
+flutter build apk --release --split-per-abi
+#   → app-arm64-v8a-release.apk   ← most modern phones
 ```
+
+Copy the `.apk` to your phone and open it (enable **Install from unknown sources**).
+
+<h3>🍎 iOS (IPA)</h3>
+
+iOS binaries can **only be compiled on macOS** (Xcode is required) — there's no way around that on Windows/Linux locally. Two paths:
+
+**A · On a Mac**
+
+```bash
+flutter build ipa --release   # signing configured via Xcode / your Apple account
+```
+
+**B · From Windows/Linux — build in the cloud with GitHub Actions (free on public repos)**
+
+This repo ships a workflow that builds an **unsigned** `.ipa` on a macOS runner — ideal for re-signing on-device with **ESign** or **Sideloadly** (they apply *your* certificate at install time, so an unsigned build is exactly what you want).
+
+1. Make sure `.github/workflows/ios.yml` exists in your repo *(see the block below if you need to add it)*.
+2. On GitHub, open the **Actions** tab → select **“iOS build (unsigned IPA)”** → **Run workflow** → **Run**.
+3. Wait ~10–15 min. Open the finished run and download the **`Cambio-unsigned-ipa`** artifact (a zip containing `Cambio-unsigned.ipa`).
+4. Send the `.ipa` to your iPhone and install it with your certificate through **ESign** / **Sideloadly**.
+
+<details>
+<summary><b>📄 <code>.github/workflows/ios.yml</code></b> — add this via GitHub → <i>Add file → Create new file</i> if it's not already there</summary>
+
+```yaml
+name: iOS build (unsigned IPA)
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.44.4
+          cache: true
+      - run: flutter pub get
+      - run: flutter build ios --release --no-codesign
+      - name: Package unsigned IPA
+        run: |
+          cd build/ios/iphoneos
+          mkdir -p Payload
+          cp -R Runner.app Payload/Runner.app
+          zip -r -y "$GITHUB_WORKSPACE/Cambio-unsigned.ipa" Payload
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Cambio-unsigned-ipa
+          path: Cambio-unsigned.ipa
+          if-no-files-found: error
+```
+
+</details>
 
 <!-- divider -->
 <img src="https://capsule-render.vercel.app/api?type=rect&color=0:E0A82E,100:E11B22&height=4" width="100%"/>
